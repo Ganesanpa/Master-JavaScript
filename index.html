@@ -1,0 +1,28 @@
+<h1>Guess the number</h1>
+<input id="n" type="number">
+<button onclick="check()">Check</button>
+
+<p id="p">You are right / wrong</p>
+<p id="s">Score: 10</p>
+
+<script>
+  var num = document.getElementById("n");
+  var para = document.getElementById("p");
+  var ss = document.getElementById("s");
+  var randomn = Math.floor(Math.random() * 10) + 1;
+  var t = 10;
+
+  function check() {
+    var enteredn = Number(num.value); // Make sure it's treated as a number
+    if (enteredn === randomn) {
+      console.log("Right");
+      para.textContent = "Right";
+      alert("You win!");
+    } else {
+      t = t - 1;
+      ss.textContent = "Score: " + t;
+      para.textContent = "Wrong";
+      alert("You lose!");
+    }
+  }
+</script>

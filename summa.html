@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Table with Update & Delete</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+        }
+        th { background-color: #f2f2f2; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        h1, h2 { text-align: center; }
+        .form-container { width: 70%; margin: 0 auto; }
+    </style>
+</head>
+<body>
+
+<h1>User Information Form</h1>
+<div class="form-container">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" id="name"></td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td><input type="number" id="age"></td>
+        </tr>
+        <tr>
+            <td>Gender</td>
+            <td>
+                <input type="radio" name="gender" value="Male">Male
+                <input type="radio" name="gender" value="Female">Female
+            </td>
+        </tr>
+        <tr>
+            <td>Course</td>
+            <td>
+                <select id="course">
+                    <option value="Python">Python</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="C">C</option>
+                    <option value="Java">Java</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" id="email"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><button onclick="getData()">SAVE</button></td>
+        </tr>
+    </table>
+</div>
+
+<h2>Submitted Data</h2>
+<table id="resultTable" style="display:none;">
+    <thead>
+        <tr>
+            <th>Name</th><th>Age</th><th>Gender</th><th>Course</th><th>Email</th><th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+</table>
+
+<script>
+    let editIndex = -1;
+
+    function getData() {
+        const name = document.getElementById("name").value.trim();
+        const age = document.getElementById("age").value.trim();
+        const gender = document.querySelector('input[name="gender"]:checked')?.value || "Not selected";
+        const course = document.getElementById("course").value;
+        const email = document.getElementById("email").value.trim();
+
+        if (!name || !age || !email) {
+            alert("Please complete all required fields.");
+            return;
+        }
+
+        const table = document.getElementById("resultTable");
+        const body = document.getElementById("resultBody");
+
+        if (editIndex === -1) {
+            const row = body.insertRow();
+            row.insertCell().innerText = name;
+            row.insertCell().innerText = age;
+            row.insertCell().innerText = gender;
+            row.insertCell().innerText = course;
+            row.insertCell().innerText = email;
+            const actions = row.insertCell();
+            actions.innerHTML = `<button onclick="editRow(this)">Edit</button> <button onclick="deleteRow(this)">Delete</button>`;
+        } else {
+            const row = body.rows[editIndex];
+            row.cells[0].innerText = name;
+            row.cells[1].innerText = age;
+            row.cells[2].innerText = gender;
+            row.cells[3].innerText = course;
+            row.cells[4].innerText = email;
+            editIndex = -1;
+        }
+
+        table.style.display = "table";
+        document.getElementById("name").value = "";
+        document.getElementById("age").value = "";
+        document.querySelectorAll('input[name="gender"]').forEach(el => el.checked = false);
+        document.getElementById("course").value = "Python";
+        document.getElementById("email").value = "";
+    }
+
+    function editRow(btn) {
+        const row = btn.closest("tr");
+        editIndex = row.rowIndex - 1;
+        document.getElementById("name").value = row.cells[0].innerText;
+        document.getElementById("age").value = row.cells[1].innerText;
+        const gender = row.cells[2].innerText;
+        document.querySelector(`input[name="gender"][value="${gender}"]`)?.click();
+        document.getElementById("course").value = row.cells[3].innerText;
+        document.getElementById("email").value = row.cells[4].innerText;
+    }
+
+    function deleteRow(btn) {
+        const row = btn.closest("tr");
+        row.remove();
+        if (document.getElementById("resultBody").rows.length === 0) {
+            document.getElementById("resultTable").style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>

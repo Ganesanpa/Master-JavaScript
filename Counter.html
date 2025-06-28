@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div>
+    <h1 class="counter"> 1000</h1>
+    <p class="followers">followers</p>
+   </div>
+
+   <script>
+    var counter=document.querySelector(".counter");
+    var follower=document.querySelector(".followers");
+let count=1;
+setInterval(()=>{
+    if(count<1000){
+        count++;
+        counter.innerText=count;
+    }
+},1);
+
+setTimeout(()=>{
+    follower.innerText="welcome to Soul Society";
+},1)
+
+   </script>
+</body>
+</html>

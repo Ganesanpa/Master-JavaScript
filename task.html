@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Input Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-container {
+            width: 70%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>User Information Form</h1>
+    
+<div class="form-container">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td><input type="text" id="name"></td>
+            </tr>
+            <tr>
+                <td>Age</td>
+                <td><input type="number" id="age"></td>
+            </tr>
+            <tr>
+
+
+                <td>Gender</td>
+                <td>
+                    <input type="radio" name="gender" value="Male">Male
+                    <input type="radio" name="gender" value="Female">Female
+                </td>
+            </tr>
+            <tr>
+                <td>Course</td>
+                <td>
+                    <select id="course">
+
+                        <option value="Python">Python</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="C">C</option>
+                        <option value="Java">Java</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" id="email"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button onclick="getData()">SAVE</button></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <h2 style="text-align: center;">Submitted Data</h2>
+
+    <table id="resultTable" style="display:none;">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Course</th>
+                <th>Email</th>
+
+            </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+    </table>
+
+    <script>
+        function getData() {
+            
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const gender = document.querySelector('input[name="gender"]:checked')?.value || "Not selected";
+            const course = document.getElementById("course").value;
+            const email = document.getElementById("email").value;
+
+            if (!name || !age || !email) {
+                alert("Please fill out all required fields.");
+                return;
+            }
+
+            const resultBody = document.getElementById("resultBody");
+            const resultTable = document.getElementById("resultTable");
+            resultTable.style.display = "table";
+
+            const newRow = resultBody.insertRow();
+
+            newRow.insertCell().innerText = name;
+            newRow.insertCell().innerText = age;
+            newRow.insertCell().innerText = gender;
+            newRow.insertCell().innerText = course;
+            newRow.insertCell().innerText = email;
+
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.querySelectorAll('input[name="gender"]').forEach(el => el.checked = false);
+            document.getElementById("course").value = "Python";
+            document.getElementById("email").value = "";
+        }
+    </script>
+
+</body>
+</html>
